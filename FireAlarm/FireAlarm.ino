@@ -44,7 +44,7 @@ void loop() {
       else{
         digitalWrite(light1Pin, HIGH);
         digitalWrite(light2Pin, LOW);
-      }
+     }
      delay(250);      
     }
   }   
