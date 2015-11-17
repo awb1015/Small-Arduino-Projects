@@ -2,41 +2,47 @@ const int ResetPin = 2;
 const int PausePin = 3;
 unsigned long StartTime;
 unsigned long ElapsedTime;
+unsigned long PauseTimeStart;
+unsigned long PauseTime;
+unsigned long TotalPauseTime;
 int Speed = 0;
 int AverageSpeed = 0;
 boolean Timing = false;
+int hours = 0;
+int minutes = 0;
+int seconds = 0;
 
 void setup() {
   // put your setup code here, to run once:
   pinMode(ResetPin, INPUT);
   pinMode(PausePin, INPUT);
   ElapsedTime = 0;
+  TotalPauseTime = 0;
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  
-  
-  ElapsedTime = millis() - StartTime
-  
+    
   while(Timing = false){
     
     display();
     
     if (ResetPin == HIGH && ElapsedTime != 0){
       ElapsedTime = 0;
+      TotalPauseTime = 0;
       delay(50);
     }
     
     if (PausePin == HIGH && ElapsedTime !=0){
+      PauseTime = millis() - PauseTimeStart;
+      TotalPauseTime = TotalPauseTime + PauseTime;
       Timing = true;
-      //we need a way to resume the timer
       delay(50);
     }
     
     
-    if(PausePin == HIGH && ElapsedTime =0){
+    if(PausePin == HIGH && ElapsedTime = 0){
       StartTime = millis();
       Timing = true;
       delay(50);
@@ -48,14 +54,19 @@ void loop() {
     display();
     
     if (PausePin == HIGH && ElapsedTime != 0){
-    Timing = false;
-    delay(50);
-    //We need a way to pause the timer here
-    }
+      PauseTimeStart = millis();
+      Timing = false;
+      delay(50);
+   }
   }
 
 }
 
 void display(){
-  //put somethings here to organise our display
+  ElapsedTime = millis() - ( StartTime + TotalPauseTime);
+  seconds = (ElapsedTime / 1000) % 60;
+  minutes = (ElapsedTime / (1000*60)) % 60;
+  hours = (ElapsedTime / (1000*60*60)) % 24;
+  //Now we'll need to display this elapsedtime in a friendly format
+  
 }
