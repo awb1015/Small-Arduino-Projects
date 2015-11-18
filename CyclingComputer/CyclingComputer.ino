@@ -1,5 +1,8 @@
-const int ResetPin = 2;
-const int PausePin = 3;
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+const int ResetPin = 8;
+const int PausePin = 9;
 unsigned long StartTime;
 unsigned long ElapsedTime;
 unsigned long PauseTimeStart;
@@ -13,12 +16,14 @@ int minutes = 0;
 int seconds = 0;
 
 void setup() {
-  // put your setup code here, to run once:
+  // put your setup code here, to run once
+  Serial.begin(9600);
+  lcd.begin(16, 2);
   pinMode(ResetPin, INPUT);
   pinMode(PausePin, INPUT);
   ElapsedTime = 0;
   TotalPauseTime = 0;
-
+  
 }
 
 void loop() {
@@ -28,13 +33,13 @@ void loop() {
     
     display();
     
-    if (ResetPin == HIGH && ElapsedTime != 0){
+    if (digitalRead(ResetPin) == HIGH && ElapsedTime != 0){
       ElapsedTime = 0;
       TotalPauseTime = 0;
       delay(50);
     }
     
-    if (PausePin == HIGH && ElapsedTime !=0){
+    if (digitalRead(PausePin) == HIGH && ElapsedTime !=0) {
       PauseTime = millis() - PauseTimeStart;
       TotalPauseTime = TotalPauseTime + PauseTime;
       Timing = true;
@@ -42,7 +47,7 @@ void loop() {
     }
     
     
-    if(PausePin == HIGH && ElapsedTime = 0){
+    if (digitalRead(PausePin) == HIGH && ElapsedTime == 0){
       StartTime = millis();
       Timing = true;
       delay(50);
@@ -50,10 +55,13 @@ void loop() {
 
   }
   
-  while(timing = true){
+  while(Timing = true){
+    
+    ElapsedTime = millis() - (StartTime + TotalPauseTime); 
+    
     display();
     
-    if (PausePin == HIGH && ElapsedTime != 0){
+    if (digitalRead(PausePin) == HIGH && ElapsedTime != 0){
       PauseTimeStart = millis();
       Timing = false;
       delay(50);
@@ -63,10 +71,19 @@ void loop() {
 }
 
 void display(){
-  ElapsedTime = millis() - ( StartTime + TotalPauseTime);
   seconds = (ElapsedTime / 1000) % 60;
   minutes = (ElapsedTime / (1000*60)) % 60;
   hours = (ElapsedTime / (1000*60*60)) % 24;
-  //Now we'll need to display this elapsedtime in a friendly format
-  
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print(hours);
+  lcd.setCursor(3, 0);
+  lcd.print(minutes);
+  lcd.setCursor(6, 0);
+  lcd.print(seconds);
+  Serial.println(Timing);
 }
+  
+  //This is just a trial display set-up
+  
+
