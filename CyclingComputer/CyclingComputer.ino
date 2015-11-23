@@ -3,6 +3,7 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
 const int ResetPin = 8;
 const int PausePin = 9;
+const int HallPin = 10;
 const long screenrefresh = 50;
 unsigned long previousrefresh = 0;
 unsigned long StartTime;
@@ -10,6 +11,8 @@ unsigned long ElapsedTime;
 unsigned long PauseTimeStart;
 unsigned long PauseTime;
 unsigned long TotalPauseTime;
+unsigned long SpinTime;
+unsigned long OldSpinTime;
 int Speed = 0;
 int AverageSpeed = 0;
 boolean Timing = false;
@@ -17,12 +20,14 @@ int hours = 0;
 int minutes = 0;
 int seconds = 0;
 int milliseconds = 0;
+int RPM = 0;
 
 void setup() {
   // put your setup code here, to run once
   lcd.begin(16, 2);
   pinMode(ResetPin, INPUT);
   pinMode(PausePin, INPUT);
+  pinMode(HallPin, INPUT);
   ElapsedTime = 0;
   TotalPauseTime = 0;
   Timing = false;
@@ -34,6 +39,7 @@ void loop() {
     
   while(Timing == false){
     
+    bikespeed();
     display();
     
     if (digitalRead(ResetPin) == HIGH && ElapsedTime != 0){
@@ -62,6 +68,7 @@ void loop() {
     
     ElapsedTime = millis() - (StartTime + TotalPauseTime); 
     
+    bikespeed();
     display();
     
     if (digitalRead(PausePin) == HIGH && ElapsedTime != 0){
@@ -121,7 +128,36 @@ void display(){
     if (milliseconds > 99){
       lcd.print(milliseconds);
     }
+    
+    lcd.setCursor(2, 1);
+    if (Speed < 10){
+      lcd.print("0");
+      lcd.print(Speed);
+    }
+    if (Speed >= 10){
+      lcd.print(Speed);
+    }
+  
   }
+  
+}
+
+void bikespeed(){
+  //we need to time between hall effects
+  //then convert to a speed
+  if( digitalRead(HallPin) == HIGH){
+   SpinTime = millis();
+   RPM = (SpinTime - OldSpinTime) * (1000 / 60);
+   OldSpinTime = SpinTime;
+  }
+  
+  if (SpinTime > 2000 || OldSpinTime == 0){
+    Speed = 0;
+  }
+  else{
+    Speed = ( RPM * 60 * 211 ) / 160934;
+  }
+  
 }
   
   
