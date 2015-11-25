@@ -15,7 +15,7 @@
 TinyScreen display = TinyScreen(0);
 
 const int HallPin = 10;
-const long screenrefresh = 50;
+const long screenrefresh = 75;
 unsigned long previousrefresh = 0;
 unsigned long StartTime;
 unsigned long ElapsedTime;
@@ -32,6 +32,8 @@ int minutes = 0;
 int seconds = 0;
 int milliseconds = 0;
 int RPM = 0;
+int WheelRevolutions = 0;
+int DistanceTraveled = 0;
 
 void setup() {
   
@@ -52,7 +54,7 @@ void loop() {
   while(Timing == false){
     
     bikespeed();
-    visualthings();
+    dashboard();
     
     if (display.getButtons() == 8 && ElapsedTime != 0){
       ElapsedTime = 0;
@@ -81,7 +83,7 @@ void loop() {
     ElapsedTime = millis() - (StartTime + TotalPauseTime); 
     
     bikespeed();
-    visualthings();
+    dashboard();
     
     if (display.getButtons() == 4 && ElapsedTime != 0){
       PauseTimeStart = millis();
@@ -89,10 +91,10 @@ void loop() {
       delay(250);
    }
   }
-
+  
 }
 
-void visualthings(){
+void dashboard(){
   unsigned long currentrefresh = millis();
   
   if (currentrefresh - previousrefresh >= screenrefresh){
@@ -102,6 +104,7 @@ void visualthings(){
     seconds = (ElapsedTime / 1000) % 60;
     minutes = (((ElapsedTime / 1000)/ 60) % 60);
     hours = ((((ElapsedTime / 1000) / 60) / 60) % 24);
+    DistanceTraveled = ((WheelRevolutions * 211 ) / 160934);
    
     display.setFont(liberationSans_8ptFontInfo);
     display.clearWindow(0, 0, 96, 64);
@@ -154,6 +157,17 @@ void visualthings(){
       display.print(Speed);
       display.print(" MPH");
     }
+    
+    display.setCursor(54, 18);
+    if (DistanceTraveled < 10){
+      display.print("0");
+      display.print(DistanceTraveled);
+      display.print("Miles");
+    }
+    if (DistanceTraveled >= 10){
+      display.print(DistanceTraveled);
+      display.print("Miles");
+    }
   
   }
   
@@ -166,6 +180,7 @@ void bikespeed(){
    SpinTime = millis();
    RPM = (SpinTime - OldSpinTime) * (1000 / 60);
    OldSpinTime = SpinTime;
+   WheelRevolutions++; 
   }
   
   if (SpinTime > 2000 || OldSpinTime == 0){
