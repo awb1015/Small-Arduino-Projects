@@ -168,9 +168,21 @@ void dashboard(){
       display.print(DistanceTraveled);
       display.print("Miles");
     }
+    
+   
+    display.setCursor(54, 27);
+    if (AverageSpeed < 10){
+      display.print("0");
+      display.print(AverageSpeed);
+      display.print("MPH");
+    }
+    
+    if (AverageSpeed >= 10){
+      display.print(AverageSpeed);
+      display.print("MPH");
+    }
   
-  }
-  
+}
 }
 
 void bikespeed(){
@@ -188,6 +200,13 @@ void bikespeed(){
   }
   else{
     Speed = ( RPM * 60 * 211 ) / 160934;
+  }
+  
+  if (DistanceTraveled > 0){
+    AverageSpeed = DistanceTraveled / (ElapsedTime / 3600000);
+  }
+  if (DistanceTraveled == 0){
+    AverageSpeed = 0;
   }
   
 }
