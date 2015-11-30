@@ -34,6 +34,8 @@ int milliseconds = 0;
 int RPM = 0;
 int WheelRevolutions = 0;
 int DistanceTraveled = 0;
+int laparray[];
+int lap = 0;
 
 void setup() {
   
@@ -90,6 +92,12 @@ void loop() {
       Timing = false;
       delay(250);
    }
+   
+   if (display.getButtons() == 8 && ElapsedTime != 0){
+     laparray[lap] = ElapsedTime;    
+     lap++; 
+   }
+   
   }
   
 }
@@ -100,6 +108,7 @@ void dashboard(){
   if (currentrefresh - previousrefresh >= screenrefresh){
     previousrefresh = currentrefresh;
     //this way the displayed values of time are only recalculated when the display is refreshed
+    //next we need to add a new page for the cycling computer that displays laps by using the value of lap and the difference between array values
     milliseconds = (ElapsedTime % 1000);
     seconds = (ElapsedTime / 1000) % 60;
     minutes = (((ElapsedTime / 1000)/ 60) % 60);
