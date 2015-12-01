@@ -36,6 +36,11 @@ int WheelRevolutions = 0;
 int DistanceTraveled = 0;
 int laparray[];
 int lap = 0;
+int i;
+int laphours = 0;
+int lapminutes = 0;
+int lapseconds = 0;
+int lapmilliseconds = 0;
 
 void setup() {
   
@@ -192,6 +197,100 @@ void dashboard(){
     }
   
 }
+}
+
+void dashboard2(){
+  //In here we begin the display of laptimes
+  //calculate laptimes using a For Loop
+  display.setCursor(0, 0);
+  display.print("Laps");
+  lapmilliseconds = ((laparray[0] - StartTime) % 1000);
+  lapseconds = ((laparray[0] - StartTime) / 1000) % 60;
+  lapminutes = ((((laparray[0] - StartTime) / 1000)/ 60) % 60);
+  laphours = (((((laparray[0] - StartTime) / 1000) / 60) / 60) % 24);
+  display.print(laphours);
+  
+  display.setCursor(9, 0);
+  display.print(":");
+  if (lapminutes < 10){
+    display.print("0");      
+    display.print(lapminutes);
+  }
+  else{
+    display.print(lapminutes);
+  }
+  
+  display.setCursor(26, 0);
+  display.print(":");
+  if (lapseconds < 10){
+    display.print("0");      
+    display.print(lapseconds);
+  }
+  else{
+    display.print(lapseconds);
+  }
+  
+  display.setCursor(43, 0);
+  display.print(":");
+  if (lapmilliseconds < 10){
+    display.print("00");      
+    display.print(lapmilliseconds);
+  }
+  if (lapmilliseconds > 9 && lapmilliseconds < 100){
+    display.print("0");      
+    display.print(lapmilliseconds);
+  }
+  if (lapmilliseconds > 99){
+    display.print(lapmilliseconds);
+  }
+  //print our first lap
+  
+  //print subsequent laps
+  //need to add contingency for additional pages if there are
+  //too many laps to fit on one page
+  for(int i = 1; i == lap, i++){
+    display.setCursor(0, 9 * i);
+    lapmilliseconds = ((laparray[i] - laparrary[i-1]) % 1000);
+    lapseconds = ((laparray[i] - laparrary[i-1]) / 1000) % 60;
+    lapminutes = ((((laparray[i] - laparrary[i-1]) / 1000)/ 60) % 60);
+    laphours = (((((laparray[i] - laparrary[i-1]) / 1000) / 60) / 60) % 24);
+    display.print(laphours);
+    
+    display.setCursor(9, 9 * i);
+    display.print(":");
+    if (lapminutes < 10){
+      display.print("0");      
+      display.print(lapminutes);
+    }
+    else{
+      display.print(lapminutes);
+    }
+    
+    display.setCursor(26, 9 * i);
+    display.print(":");
+    if (lapseconds < 10){
+      display.print("0");      
+      display.print(lapseconds);
+    }
+    else{
+      display.print(lapseconds);
+    }
+    
+    display.setCursor(43, 9 * i);
+    display.print(":");
+    if (lapmilliseconds < 10){
+      display.print("00");      
+      display.print(lapmilliseconds);
+    }
+    if (lapmilliseconds > 9 && lapmilliseconds < 100){
+      display.print("0");      
+      display.print(lapmilliseconds);
+    }
+    if (lapmilliseconds > 99){
+      display.print(lapmilliseconds);
+    }
+        
+  }
 }
 
 void bikespeed(){
