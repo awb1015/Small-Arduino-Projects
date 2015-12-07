@@ -318,7 +318,12 @@ void bikespeed(){
   }
   
 }
-  
-  
+
+void timeformat(){
+  //here we'll format the unsigned long into
+  //a display friendly format
+  //inputs to the function will be the long
+  //value for time and position to put the formatted result
+}  
   
 
