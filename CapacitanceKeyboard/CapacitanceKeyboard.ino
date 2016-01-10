@@ -1,43 +1,32 @@
 #include <CapacitiveSensor.h>
-CapacitiveSensor capSensor = CapacitiveSensor(4, 2);
 int threshold = 1000;
-const int ledPin = 12;
-const int ResetPin = 13;
 const int NumberofKeys = 4;
 
 for(int i=1; i = NumberofKeys; i++){
-  //declare our input capacitance keys
-  //declare our output HIL or tone pins with a for loop
-  //declare our key
+  CapacitiveSensor capSensor_i = CapacitiveSensor(13, i+1);
+  //declare our keys as capactience sensors starting at pin 2
+  //and using pin 13 as a common ground
 }
 
 void setup() {
   // put your setup code here to run once:
   Serial.begin(9600);
-  pinMode(ledPin, OUTPUT);
-  pinMode(ResetPin, INPUT);
+    
+  for(int i=1; i = NumberofKeys; i++){
+    pinMode(NumberofKeys + 1 + i, OUTPUT);
+    //sets enough output LEDs for HIL support
+  }
   
+      
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  long sensorValue = capSensor.capacitiveSensor(30);
-  Serial.println(sensorValue);
   
-  //outputs from a capacitance will be run through with another for loop
-  if(sensorValue > threshold) {
-    digitalWrite(ledPin, HIGH);
-    
+  for(int i=1; i = NumberofKeys; i++){
+    //Check sensor value
+    //then illuminate appropriate LED
+    //or turn off LED as needed
   }
   
-  else{
-    digitalWrite(ledPin, LOW);
-  }
-  
-  delay(10);
-  
-  if(digitalRead(ResetPin == HIGH){
-    //Rezero Our Capacitance Values
-  }
-
 }
