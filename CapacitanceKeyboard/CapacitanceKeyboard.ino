@@ -1,34 +1,42 @@
 #include <CapacitiveSensor.h>
 #define NUMBER_OF_KEYS 2
 int threshold = 300;
-int i;
 CapacitiveSensor* capSensor[NUMBER_OF_KEYS];
 
 void setup() {
   Serial.begin(9600);
 
-  for(int i=0; i < NUMBER_OF_KEYS - 1; i++){
+  for(int i=0; i < NUMBER_OF_KEYS; i++){
     capSensor[i] = new CapacitiveSensor(13, i + 2);
+    if(i== NUMBER_OF_KEYS - 1){
+      i = 0;
+    }
   }
+  
     
-  for(int i=1; i = NUMBER_OF_KEYS; i++){
-    pinMode(NUMBER_OF_KEYS + i + 1, OUTPUT);
+  for(int j=1; j = NUMBER_OF_KEYS; j++){
+    pinMode(NUMBER_OF_KEYS + j + 1, OUTPUT);
   }
    
 }
 
 void loop() {
   long sensorValue;
-  Serial.println(sensorValue);
-  for(int i=0; i < NUMBER_OF_KEYS; i++){
-    sensorValue = capSensor[i]->capacitiveSensor(30);
+  int x = 1;
+  for(int k=0; k < NUMBER_OF_KEYS; k = k + x){
+    sensorValue = capSensor[k]->capacitiveSensor(30);
+    Serial.println(sensorValue);
     if(sensorValue > threshold){
-      digitalWrite(NUMBER_OF_KEYS + 1 + i, HIGH);
+      digitalWrite(NUMBER_OF_KEYS + k + 1, HIGH);
     }
     else{
-      digitalWrite(NUMBER_OF_KEYS + 1 + i, LOW);
+      digitalWrite(NUMBER_OF_KEYS + k + 1, LOW);
     }
     
     delay(10);
-  }    
+    
+    if (k == NUMBER_OF_KEYS - 1){
+      x = -x;
+    }
+  }
 }
