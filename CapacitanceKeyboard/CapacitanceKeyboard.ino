@@ -8,12 +8,8 @@ void setup() {
 
   for(int i=0; i < NUMBER_OF_KEYS; i++){
     capSensor[i] = new CapacitiveSensor(13, i + 2);
-    if(i== NUMBER_OF_KEYS - 1){
-      i = 0;
     }
-  }
-  
-    
+     
   for(int j=1; j = NUMBER_OF_KEYS; j++){
     pinMode(NUMBER_OF_KEYS + j + 1, OUTPUT);
   }
@@ -22,8 +18,7 @@ void setup() {
 
 void loop() {
   long sensorValue;
-  int x = 1;
-  for(int k=0; k < NUMBER_OF_KEYS; k = k + x){
+  for(int k=0; k < NUMBER_OF_KEYS; k++){
     sensorValue = capSensor[k]->capacitiveSensor(30);
     Serial.println(sensorValue);
     if(sensorValue > threshold){
@@ -34,9 +29,5 @@ void loop() {
     }
     
     delay(10);
-    
-    if (k == NUMBER_OF_KEYS - 1){
-      x = -x;
-    }
   }
 }
