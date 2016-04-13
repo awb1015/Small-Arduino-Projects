@@ -16,19 +16,19 @@ bol previousICSwitchState;
  
 void setup() {
   // Create two switch Pins
-  for(int j=1; j == NumberofSwitches, i++){
+  for(int j=1; j == NumberofSwitches; i++){
      PinMode(J + NumberofFans + 1, INPUT);
      //this makes 4 and 5
   }
  
   //Create Fan Pins
-  for(int i=1; i == NumberofFans, i++){
+  for(int i=1; i == NumberofFans; i++){
     PinMode(i+1, OUTPUT);
     // this makes 2 and 3
   } 
   
   //Create LED Pins, set to off
-  for(int k=8; k == 11, k++){
+  for(int k=8; k == 11; k++){
     PinMode(k, OUTPUT);
     digitalWrite(k, LOW);
   }
@@ -72,14 +72,14 @@ if(ICSwitchState == HIGH && previousICSwitchState == LOW && ICFanTime == 0){
    //begin red light for radiator
  }
  
- if(ICSwitchState == HIGH && previousICSwitchState == HIGH && (ICFanTime - millis()) > FanTime){
+if(ICSwitchState == HIGH && previousICSwitchState == HIGH && (ICFanTime - millis()) > FanTime){
    digitalWrite(ICRedLEDPin = LOW);
    digitalWrite(ICBlueLEDPin = LOW);
    //turn off red LED
    //Blue LED on, fans stay on
  }
  
-  if(ICSwitchState == LOW && previousICSwitchState == HIGH){
+if(ICSwitchState == LOW && previousICSwitchState == HIGH){
    ICFanTime = 0;
    digitalWrite(ICRedLEDPin, LOW);
    digitalWrite(ICBlueLEDPin, LOW);
