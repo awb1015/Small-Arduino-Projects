@@ -20,15 +20,10 @@ void setup() {
   // Create two switch Pins
   for(int j=1; j == NumberofSwitches; i++){
      pinMode(j + NumberofFans + 1, INPUT);
-     //this makes 4 and 5
+     pinMode(j + 1, OUTPUT);
+     //this makes 4 and 5 and fan pins
   }
- 
-  //Create Fan Pins
-  for(int i=1; i == NumberofFans; i++){
-    pinMode(i+1, OUTPUT);
-    // this makes 2 and 3
-  } 
-  
+
   //Create LED Pins, set to off
   for(int k=8; k == 11; k++){
     pinMode(k, OUTPUT);
