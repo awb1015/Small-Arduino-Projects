@@ -1,12 +1,16 @@
 #include <Stepper.h>
 const int stepsPerRevolution = 200
+//Alter this depending on the motor used
 const int stepPin = 3;
+ 
 const int minStepInterval = 50;
 const int maxStepInterval = 2000;
 int stepInterval;
+ 
 const int minStepSpeed = 25;
 const int maxStepSpeed = 200;
 int stepSpeed;
+ 
 const int minStepSize = 10;
 const int maxStepSize = 400;
 int stepSize;
@@ -36,6 +40,7 @@ void setup() {
  
 void loop() {
   // put your main code here, to run repeatedly:
+ 
   //Potentiometer Values are simply values of a read from the specified pin
   intervalPotVal = analogRead(stepIntervalPin);
   speedPotVal = analogRead(stepSpeedPin);
@@ -50,17 +55,23 @@ void loop() {
   Serial.println(stepSize);
  
   //now map our three potentiometers to the new values of stepSize, stepSpeed, and stepInterval;
-  stepInterval =  map(intervalPotVal, lowpot, highpot, minStepInterval, maxStepInterval );
-  stepSpeed = map(speedPotVal, lowpot, highpot, minStepSpeed, maxStepSpeed);
-  stepSize =  map(sizePotVal, lowpot, highpot, minStepSize, maxStepSize);
+  stepInterval =  map(intervalPotVal, 0, 1023, minStepInterval, maxStepInterval );
+  stepSpeed = map(speedPotVal, 0, 1023, minStepSpeed, maxStepSpeed);
+  stepSize =  map(sizePotVal, 0, 1023, minStepSize, maxStepSize);
  
   //now we update the speed field of the stepper object
   myStepper.setSpeed(stepSpeed);
  
   //check that delay time has passed and pin is pushed and has been pushed for sometime
-  if(digitalRead(stepPin)==HIGH && ){
+  //We need to add variables for switchState and previousSwitchState
+    if(digitalRead(stepPin)==HIGH && ){
   //command to step motor at given speed, for given step size
+         myStepper.step(stepSize);
+     delay(stepInterval);
+     //both these commands are block, the program will not move on
+ 
   }
+ 
  
  
 }
